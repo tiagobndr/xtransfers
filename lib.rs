@@ -15,17 +15,17 @@ mod xtransfers {
     pub struct XTransfers {
         system_chains: ink::storage::Mapping<u32, ()>,
     }
-    
+
     impl XTransfers {
         #[ink(constructor)]
         pub fn new() -> Self {
             let mut system_chains = ink::storage::Mapping::new();
-            
+
             system_chains.insert(1000, &()); // Asset Hub
             system_chains.insert(1002, &()); // Bridge Hub
             system_chains.insert(1004, &()); // People Chain
             system_chains.insert(1005, &()); // Coretime Chain
-                        
+
             Self { system_chains }
         }
 
@@ -44,9 +44,16 @@ mod xtransfers {
         }
 
         #[ink(message)]
-        pub fn reserve_based_transfer(&self, para_id: u32, beneficiary: Bytes32, amount: u128) -> Bytes {
+        pub fn reserve_based_transfer(
+            &self,
+            para_id: u32,
+            beneficiary: Bytes32,
+            amount: u128,
+        ) -> Bytes {
             let destination = Location::new(1, [Parachain(para_id)]);
-            let remote_fees = AssetTransferFilter::ReserveDeposit(Definite((Parent, amount.saturating_div(10)).into()));
+            let remote_fees = AssetTransferFilter::ReserveDeposit(Definite(
+                (Parent, amount.saturating_div(10)).into(),
+            ));
             let preserve_origin = false;
             let transfer_assets = vec![AssetTransferFilter::ReserveDeposit(Wild(AllCounted(1)))];
             let remote_xcm = Xcm::<()>::builder_unsafe()
@@ -61,7 +68,7 @@ mod xtransfers {
                     remote_fees,
                     preserve_origin,
                     transfer_assets,
-                    remote_xcm
+                    remote_xcm,
                 )
                 .build();
 
@@ -88,7 +95,7 @@ mod xtransfers {
                     remote_fees,
                     preserve_origin,
                     transfer_assets,
-                    remote_xcm
+                    remote_xcm,
                 )
                 .build();
 
