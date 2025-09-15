@@ -14,10 +14,10 @@ module.exports = {
     hardhat: {
       polkavm: true,
       forking: {
-        url: 'https://testnet-passet-hub.polkadot.io',
+        url: "https://testnet-passet-hub.polkadot.io",
       },
       adapterConfig: {
-        adapterBinaryPath: 'bin/eth-rpc',
+        adapterBinaryPath: "bin/eth-rpc",
         dev: true,
       },
     },
@@ -27,7 +27,7 @@ module.exports = {
     },
     passetHub: {
       polkavm: true,
-      url: 'https://testnet-passet-hub-eth-rpc.polkadot.io',
+      url: "https://testnet-passet-hub-eth-rpc.polkadot.io",
       accounts: [vars.get("PRIVATE_KEY")],
     },
   },
