@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "deploy:local": "npx hardhat run index.js --network localNode",
-    "deploy:testnet": "npx hardhat run index.js --network passetHub"
+    "deploy:local": "npx hardhat run scripts/deploy-ink-library.js --network localNode",
+    "deploy:testnet": "npx hardhat run scripts/deploy-ink-library.js --network passetHub",
+    "call:local": "npx hardhat run scripts/call-ink-library.js --network localNode",
+    "call:testnet": "npx hardhat run scripts/call-ink-library.js --network passetHub"
   },
   "keywords": [],
   "author": "",
