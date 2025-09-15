@@ -43,7 +43,7 @@ mod xtransfers {
             }
         }
 
-        pub fn reserve_backed_transfer(
+        fn reserve_backed_transfer(
             &self,
             para_id: u32,
             beneficiary: Bytes32,
@@ -75,7 +75,7 @@ mod xtransfers {
             ink::sol::DynBytes(versioned.encode())
         }
 
-        pub fn teleport(&self, para_id: u32, beneficiary: Bytes32, amount: u128) -> Bytes {
+        fn teleport(&self, para_id: u32, beneficiary: Bytes32, amount: u128) -> Bytes {
             let destination = Location::new(1, [Parachain(para_id)]);
             let remote_fees =
                 AssetTransferFilter::Teleport(Definite((Parent, amount.saturating_div(10)).into()));
