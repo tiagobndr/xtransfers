@@ -1,0 +1,23 @@
+{
+  "name": "xtransfers_deploy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy:local": "npx hardhat run index.js --network localNode",
+    "deploy:testnet": "npx hardhat run index.js --network passetHub"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@nomicfoundation/solidity-analyzer": "^0.1.2",
+    "@parity/hardhat-polkadot": "^0.2.0-pre1",
+    "solc": "0.8.28"
+  },
+  "dependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^6.1.0",
+    "dotenv": "^17.2.2"
+  }
+}
