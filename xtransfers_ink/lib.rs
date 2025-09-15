@@ -13,20 +13,20 @@ mod xtransfers {
 
     #[ink(storage)]
     pub struct XTransfers {
-        system_chains: ink::storage::Mapping<u32, ()>,
+        system_chains: [u32; 4], // Fixed-size array is acceptable because we only have 4 system chains
     }
 
     impl XTransfers {
         #[ink(constructor)]
         pub fn new() -> Self {
-            let mut system_chains = ink::storage::Mapping::new();
-
-            system_chains.insert(1000, &()); // Asset Hub
-            system_chains.insert(1002, &()); // Bridge Hub
-            system_chains.insert(1004, &()); // People Chain
-            system_chains.insert(1005, &()); // Coretime Chain
-
-            Self { system_chains }
+            Self {
+                system_chains: [
+                    1000, // Asset Hub
+                    1002, // Bridge Hub
+                    1004, // People Chain
+                    1005, // Coretime Chain
+                ],
+            }
         }
 
         #[ink(message)]
