@@ -9,7 +9,7 @@ pop build
 #### Reference
 - [ink! docs](https://use.ink/docs/v6/getting-started/building-your-contract)
 
-## ink! Contract Deployment & Invokation Scripts
+## ink! Contract Deployment & Invocation Scripts
 #### Prerequisites
 Get PAS tokens from the [faucet](https://faucet.polkadot.io/?parachain=1111) and then run:
 ```sh
