@@ -6,26 +6,23 @@ const {
 } = require("../../xtransfers_ink/target/ink/xtransfers.json");
 const CONTRACT_ADDRESS =
   process.env.INK_LIBRARY_ADDRESS ||
-  "0x0F971053b3B9360c4083Dae118B8DD7117588A03";
+  "0xfD200CacEd3484beaA5DCb673927e649EAd13E56";
 
-const SYSTEM_CHAINS = {
+const SYSTEM_CHAINS_PASEO = {
   1000: "Asset Hub",
   1002: "Bridge Hub",
   1004: "People Chain",
   1005: "Coretime Chain",
 };
 
-const TEST_CHAINS = [
-  ...Object.entries(SYSTEM_CHAINS).map(([id, name]) => ({
+const CHAINS_PASEO = [
+  ...Object.entries(SYSTEM_CHAINS_PASEO).map(([id, name]) => ({
     id: Number(id),
     name,
   })),
   { id: 2034, name: "Hydration" },
   { id: 4000, name: "Frequency" },
 ];
-
-const createBeneficiary = (suffix = "12") =>
-  "0x" + "0".repeat(64 - suffix.length) + suffix;
 
 async function connectContract() {
   const [signer] = await hre.ethers.getSigners();
@@ -42,10 +39,10 @@ Account:  ${signer.address}
   return hre.ethers.getContractAt(abi, CONTRACT_ADDRESS, signer);
 }
 
-async function testSystemChains(contract) {
+async function getChainsInfo(contract) {
   console.log("Chains:");
 
-  for (const chain of TEST_CHAINS) {
+  for (const chain of CHAINS_PASEO) {
     const isSystem = await contract.is_system_chain(chain.id);
     const status = isSystem ? "System" : "Non-system";
     console.log(
@@ -54,11 +51,11 @@ async function testSystemChains(contract) {
   }
 }
 
-async function executeTransfer(contract, paraId, amount = "0.1") {
-  const chainName = SYSTEM_CHAINS[paraId] || `Parachain ${paraId}`;
+async function getXcmMessage(contract, paraId, amount) {
+  const chainName = CHAINS_PASEO.find(c => c.id === paraId)?.name ?? `Parachain ${paraId}`;
   const isSystem = await contract.is_system_chain(paraId);
   const transferType = isSystem ? "TELEPORT" : "RESERVE-BASED";
-  const beneficiary = createBeneficiary();
+  const beneficiary = "0x" + "0".repeat(64);
   const amountPlanck = hre.ethers.parseUnits(amount.toString(), 10);
 
   console.log(`
@@ -81,15 +78,14 @@ async function main() {
   try {
     const contract = await connectContract();
 
-    await testSystemChains(contract);
+    await getChainsInfo(contract);
 
     console.log("\n========================");
     console.log("        TRANSFERS");
     console.log("========================");
 
-    // Execute transfers
-    await executeTransfer(contract, 1000, "1"); // System chain
-    await executeTransfer(contract, 2023, "1"); // Non-system chain
+    await getXcmMessage(contract, 1000, "10"); // System chain
+    await getXcmMessage(contract, 2034, "10"); // Non-system chain
   } catch (error) {
     console.error("Error:", error.message);
     throw error;
