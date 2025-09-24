@@ -17,14 +17,7 @@ mod xtransfers {
     impl XTransfers {
         #[ink(constructor)]
         pub fn new() -> Self {
-            Self {
-                system_chains: [
-                    1000, // Asset Hub
-                    1002, // Bridge Hub
-                    1004, // People Chain
-                    1005, // Coretime Chain
-                ],
-            }
+            Self {}
         }
 
         #[ink(message)]
