@@ -12,9 +12,7 @@ mod xtransfers {
     type Bytes32 = ink::sol::FixedBytes<32>;
 
     #[ink(storage)]
-    pub struct XTransfers {
-        system_chains: [u32; 4], // Fixed-size array is acceptable because we only have 4 system chains
-    }
+    pub struct XTransfers {}
 
     impl XTransfers {
         #[ink(constructor)]
@@ -30,13 +28,8 @@ mod xtransfers {
         }
 
         #[ink(message)]
-        pub fn is_system_chain(&self, chain_id: u32) -> bool {
-            self.system_chains.contains(chain_id)
-        }
-
-        #[ink(message)]
         pub fn transfer(&self, para_id: u32, beneficiary: Bytes32, amount: u128) -> Bytes {
-            if self.is_system_chain(para_id) {
+            if para_id < 2000 {
                 self.teleport(para_id, beneficiary, amount)
             } else {
                 self.reserve_backed_transfer(para_id, beneficiary, amount)
