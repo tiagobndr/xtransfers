@@ -42,6 +42,7 @@ mod xtransfers {
             let preserve_origin = false;
             let transfer_assets = vec![AssetTransferFilter::ReserveDeposit(Wild(AllCounted(1)))];
             let remote_xcm = Xcm::<()>::builder_unsafe()
+                .refund_surplus()
                 .deposit_asset(AllCounted(1), *beneficiary)
                 .build();
 
@@ -54,6 +55,14 @@ mod xtransfers {
                     preserve_origin,
                     transfer_assets,
                     remote_xcm,
+                )
+                .refund_surplus()
+                .deposit_asset(
+                    AllCounted(1),
+                    Location::new(0, [AccountKey20 {
+                        network: None,
+                        key: self.env().caller().into(),
+                    }]),
                 )
                 .build();
 
@@ -68,6 +77,7 @@ mod xtransfers {
             let preserve_origin = false;
             let transfer_assets = vec![AssetTransferFilter::Teleport(Wild(AllCounted(1)))];
             let remote_xcm = Xcm::<()>::builder_unsafe()
+                .refund_surplus()
                 .deposit_asset(AllCounted(1), *beneficiary)
                 .build();
 
@@ -80,6 +90,14 @@ mod xtransfers {
                     preserve_origin,
                     transfer_assets,
                     remote_xcm,
+                )
+                .refund_surplus()
+                .deposit_asset(
+                    AllCounted(1),
+                    Location::new(0, [AccountKey20 {
+                        network: None,
+                        key: self.env().caller().into(),
+                    }]),
                 )
                 .build();
 
